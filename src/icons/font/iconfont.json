@@ -1,0 +1,72 @@
+{
+  "id": "3670561",
+  "name": "帝可得",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "586812",
+      "name": "component",
+      "font_class": "component",
+      "unicode": "e6de",
+      "unicode_decimal": 59102
+    },
+    {
+      "icon_id": "629343",
+      "name": "首页",
+      "font_class": "shouye",
+      "unicode": "e64f",
+      "unicode_decimal": 58959
+    },
+    {
+      "icon_id": "1053839",
+      "name": "待对账订单",
+      "font_class": "webicon14",
+      "unicode": "e678",
+      "unicode_decimal": 59000
+    },
+    {
+      "icon_id": "1836298",
+      "name": "策略",
+      "font_class": "strategy",
+      "unicode": "e66f",
+      "unicode_decimal": 58991
+    },
+    {
+      "icon_id": "2959077",
+      "name": "人员管理",
+      "font_class": "renyuanguanli",
+      "unicode": "e62d",
+      "unicode_decimal": 58925
+    },
+    {
+      "icon_id": "4198411",
+      "name": "坐标",
+      "font_class": "zuobiao",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "6851676",
+      "name": "工单",
+      "font_class": "gongdan",
+      "unicode": "e6d9",
+      "unicode_decimal": 59097
+    },
+    {
+      "icon_id": "9148800",
+      "name": "订单",
+      "font_class": "dingdan",
+      "unicode": "e610",
+      "unicode_decimal": 58896
+    },
+    {
+      "icon_id": "13672652",
+      "name": "充电桩",
+      "font_class": "chongdianzhuang",
+      "unicode": "e672",
+      "unicode_decimal": 58994
+    }
+  ]
+}

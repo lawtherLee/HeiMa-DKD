@@ -35,6 +35,14 @@ module.exports = {
     overlay: {
       warnings: false,
       errors: true
+    },
+    // 跨域配置
+    proxy: {
+      '/api': {
+        target: 'http://likede2-admin.itheima.net/',
+        changeOrigin: true
+
+      }
     }
     // before: require('./mock/mock-server.js')
   },
