@@ -39,9 +39,8 @@ module.exports = {
     // 跨域配置
     proxy: {
       '/api': {
-        target: 'http://likede2-admin.itheima.net/',
+        target: 'https://likede2-java.itheima.net/',
         changeOrigin: true
-
       }
     }
     // before: require('./mock/mock-server.js')

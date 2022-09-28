@@ -9,15 +9,22 @@
       </div>
       <!--        /logo-->
       <!--        表单区域-->
-      <el-form ref="loginForm" auto-complete="on" class="login-form" label-position="left">
+      <el-form
+        ref="loginForm"
+        :model="loginForm"
+        :rules="rules"
+        auto-complete="on"
+        class="login-form"
+        label-position="left"
+      >
         <!--        手机号-->
-        <el-form-item class="el-form-item">
+        <el-form-item class="el-form-item" prop="loginName">
           <span class="iconfont icon-shoujihao" />
-          <el-input v-model="loginForm.admin" placeholder="请输入账号" />
+          <el-input v-model="loginForm.loginName" placeholder="请输入账号" />
         </el-form-item>
         <!--        /手机号-->
         <!--        密码-->
-        <el-form-item class="el-form-item">
+        <el-form-item class="el-form-item" prop="password">
           <span class="iconfont icon-mima" />
           <el-input ref="pwd" v-model="loginForm.password" :type="passwordType" placeholder="请输入密码" />
           <!--          眼睛状态-->
@@ -30,12 +37,16 @@
         <!--        验证码-->
         <el-form-item class="el-form-item ">
           <span class="iconfont icon-yanzhengma2" />
-          <el-input />
-          <div class="authCode"><img alt="" src=""></div>
+          <el-input v-model="loginForm.code" class="code-ipt" />
+          <div class="authCode"><img
+            :src="imgUrl"
+            alt=""
+            @click="changeCode"
+          ></div>
         </el-form-item>
         <!--        /验证码-->
 
-        <el-button class="loginBtn">登录</el-button>
+        <el-button v-loading="loading" class="loginBtn" @click="login">登录</el-button>
       </el-form>
       <!--        /表单区域-->
     </div>
@@ -44,24 +55,66 @@
   </div>
 
 </template>
+
 <script>
 export default {
   name: 'Login',
+
   data() {
     return {
       loginForm: {
-        admin: 'admin',
-        password: 123456
+        loginName: 'admin',
+        password: 'admin',
+        clientToken: 0, // 记录随机数
+        loginType: 0, // 登录类型
+        code: '' // 验证码
       },
-      passwordType: 'password'
+      passwordType: 'password',
+      imgUrl: '',
+      randomNum: '',
+      loading: false,
+
+      rules: {
+        loginName: [{ required: true, message: '用户名不能为空', trigger: 'blur' }],
+        password: [{ required: true, message: '密码不能为空', trigger: 'blur' }]
+      }
     }
   },
+
+  created() {
+    this.changeCode()
+  },
+
   methods: {
+    // 点击 切换密码显示隐藏状态
     changePwd() {
       this.passwordType === 'password' ? this.passwordType = '' : this.passwordType = 'password'
+      // 切换input不失焦
       this.$nextTick(() => {
         this.$refs.pwd.focus()
       })
+    },
+
+    // 点击 切换验证码
+    async changeCode() {
+      this.loginForm.clientToken = Math.random()
+      await this.$store.dispatch('user/changeCodeActions', this.loginForm.clientToken)
+      this.imgUrl = window.URL.createObjectURL(this.$store.state.user.code)
+    },
+
+    // 点击 登录按钮
+    async login() {
+      try {
+        this.loading = true
+        await this.$store.dispatch('user/loginAction', this.loginForm)
+        console.log(this.$store.state.user)
+        if (this.$store.state.user.data.success) {
+          this.$message.success('登录成功')
+          this.$router.push('/dashboard')
+        }
+      } finally {
+        this.loading = false
+      }
     }
   }
 }
@@ -69,7 +122,6 @@ export default {
 
 <style lang="scss">
 /* 修复input 背景不协调 和光标变色 */
-/* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
 $bg: #283443;
 $light_gray: #666;
@@ -119,8 +171,26 @@ $cursor: #999;
       margin-left: 10px;
     }
 
+    .code-ipt {
+      width: 70%;
+
+      .el-input__inner {
+        width: 100%;
+      }
+    }
+
+    //验证码盒子
     .authCode {
-      float: left;
+      float: right;
+      height: 47px;
+      box-sizing: border-box;
+      width: 24%;
+      background-color: #999;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
     }
 
     .svg-container {
